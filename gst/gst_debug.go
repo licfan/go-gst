@@ -82,7 +82,7 @@ type StackTraceFlags int
 // Type castings of StackTraceFlags
 const (
 	StackTraceShowNone StackTraceFlags = 0                           // (0) – Try to retrieve the minimum information available, which may be none on some platforms (Since: 1.18)
-	StackTraceShowFull StackTraceFlags = C.GST_STACK_TRACE_SHOW_FULL // (1) – Try to retrieve as much information as possible, including source information when getting the stack trace
+	//StackTraceShowFull StackTraceFlags = C.GST_STACK_TRACE_SHOW_FULL // (1) – Try to retrieve as much information as possible, including source information when getting the stack trace
 )
 
 // DebugCategory is a struct that describes a category of log messages.

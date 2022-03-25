@@ -33,6 +33,7 @@ func (m *Message) String() string {
 	case MessageTag:
 		tags := m.ParseTags()
 		if tags != nil {
+			defer tags.Unref()
 			msg += tags.String()
 		}
 
@@ -154,10 +155,10 @@ func (m *Message) String() string {
 			msg += fmt.Sprintf("Device %s removed", device.GetDisplayName())
 		}
 
-	case MessageDeviceChanged:
-		if device, _ := m.ParseDeviceChanged(); device != nil {
-			msg += fmt.Sprintf("Device %s had its properties updated", device.GetDisplayName())
-		}
+	//case MessageDeviceChanged:
+	//	if device, _ := m.ParseDeviceChanged(); device != nil {
+	//		msg += fmt.Sprintf("Device %s had its properties updated", device.GetDisplayName())
+	//	}
 
 	case MessagePropertyNotify:
 		obj, propName, propVal := m.ParsePropertyNotify()

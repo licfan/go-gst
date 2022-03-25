@@ -446,9 +446,9 @@ func (p *Pad) GetStreamID() string {
 }
 
 // GetTaskState gets the pad task state. If no task is currently set, TaskStopped is returned.
-func (p *Pad) GetTaskState() TaskState {
-	return TaskState(C.gst_pad_get_task_state(p.Instance()))
-}
+//func (p *Pad) GetTaskState() TaskState {
+//	return TaskState(C.gst_pad_get_task_state(p.Instance()))
+//}
 
 // HasCurrentCaps checks if pad has caps set on it with a GST_EVENT_CAPS event.
 func (p *Pad) HasCurrentCaps() bool {

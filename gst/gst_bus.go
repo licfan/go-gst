@@ -20,7 +20,7 @@ GstBusSyncReply cgoBusSyncHandler (GstBus * bus, GstMessage * message, gpointer 
 import "C"
 
 import (
-	"reflect"
+	//"reflect"
 	"time"
 	"unsafe"
 
@@ -200,18 +200,18 @@ type PollFd struct {
 //
 // Warning: NEVER read or write anything to the returned fd but only use it for getting notifications via g_poll or similar
 // and then use the normal GstBus API, e.g. PopMessage.
-func (b *Bus) GetPollFd() *PollFd {
-	var gpollFD C.GPollFD
-	C.gst_bus_get_pollfd(b.Instance(), &gpollFD)
-	pollFd := &PollFd{
-		Events:  uint(gpollFD.events),
-		REvents: uint(gpollFD.revents),
-	}
-	if fd := reflect.ValueOf(&gpollFD).Elem().FieldByName("fd"); fd.IsValid() {
-		pollFd.Fd = int(fd.Interface().(C.gint))
-	}
-	return pollFd
-}
+//func (b *Bus) GetPollFd() *PollFd {
+//	var gpollFD C.GPollFD
+//	C.gst_bus_get_pollfd(b.Instance(), &gpollFD)
+//	pollFd := &PollFd{
+//		Events:  uint(gpollFD.events),
+//		REvents: uint(gpollFD.revents),
+//	}
+//	if fd := reflect.ValueOf(&gpollFD).Elem().FieldByName("fd"); fd.IsValid() {
+//		pollFd.Fd = int(fd.Interface().(C.gint))
+//	}
+//	return pollFd
+//}
 
 // HavePending checks if there are pending messages on the bus that should be handled.
 func (b *Bus) HavePending() bool {

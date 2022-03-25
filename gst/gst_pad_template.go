@@ -38,21 +38,21 @@ func NewPadTemplate(nameTemplate string, direction PadDirection, presence PadPre
 }
 
 // NewPadTemplateWithGType creates a new pad template with a name according to the given template and with the given arguments.
-func NewPadTemplateWithGType(nameTemplate string, direction PadDirection, presence PadPresence, caps *Caps, gType glib.Type) *PadTemplate {
-	cName := C.CString(nameTemplate)
-	defer C.free(unsafe.Pointer(cName))
-	tmpl := C.gst_pad_template_new_with_gtype(
-		(*C.gchar)(cName),
-		C.GstPadDirection(direction),
-		C.GstPadPresence(presence),
-		caps.Instance(),
-		(C.GType)(gType),
-	)
-	if tmpl == nil {
-		return nil
-	}
-	return wrapPadTemplate(glib.TransferNone(unsafe.Pointer(tmpl)))
-}
+//func NewPadTemplateWithGType(nameTemplate string, direction PadDirection, presence PadPresence, caps *Caps, gType glib.Type) *PadTemplate {
+//	cName := C.CString(nameTemplate)
+//	defer C.free(unsafe.Pointer(cName))
+//	tmpl := C.gst_pad_template_new_with_gtype(
+//		(*C.gchar)(cName),
+//		C.GstPadDirection(direction),
+//		C.GstPadPresence(presence),
+//		caps.Instance(),
+//		(C.GType)(gType),
+//	)
+//	if tmpl == nil {
+//		return nil
+//	}
+//	return wrapPadTemplate(glib.TransferNone(unsafe.Pointer(tmpl)))
+//}
 
 // Instance returns the underlying C GstPadTemplate.
 func (p *PadTemplate) Instance() *C.GstPadTemplate { return C.toGstPadTemplate(p.Unsafe()) }

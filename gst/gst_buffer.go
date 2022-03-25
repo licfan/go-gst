@@ -22,7 +22,8 @@ import "C"
 import (
 	"bytes"
 	"io"
-	"io/ioutil"
+
+	//"io/ioutil"
 	"runtime"
 	"time"
 	"unsafe"
@@ -97,20 +98,20 @@ func NewBufferAllocate(alloc *Allocator, params *AllocationParams, size int64) *
 }
 
 // NewBufferFromBytes returns a new buffer from the given byte slice.
-func NewBufferFromBytes(b []byte) *Buffer {
-	gbytes := C.g_bytes_new((C.gconstpointer)(unsafe.Pointer(&b[0])), C.gsize(len(b)))
-	defer C.g_bytes_unref(gbytes)
-	return FromGstBufferUnsafeFull(unsafe.Pointer(C.gst_buffer_new_wrapped_bytes(gbytes)))
-}
+//func NewBufferFromBytes(b []byte) *Buffer {
+//	gbytes := C.g_bytes_new((C.gconstpointer)(unsafe.Pointer(&b[0])), C.gsize(len(b)))
+//	defer C.g_bytes_unref(gbytes)
+//	return FromGstBufferUnsafeFull(unsafe.Pointer(C.gst_buffer_new_wrapped_bytes(gbytes)))
+//}
 
 // NewBufferFromReader returns a new buffer from the given io.Reader.
-func NewBufferFromReader(rdr io.Reader) (*Buffer, error) {
-	out, err := ioutil.ReadAll(rdr)
-	if err != nil {
-		return nil, err
-	}
-	return NewBufferFromBytes(out), nil
-}
+//func NewBufferFromReader(rdr io.Reader) (*Buffer, error) {
+//	out, err := ioutil.ReadAll(rdr)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return NewBufferFromBytes(out), nil
+//}
 
 // NewBufferFull allocates a new buffer that wraps the given data. The wrapped buffer will
 // have the region from offset and size visible. The maxsize must be at least the size of the
@@ -296,23 +297,23 @@ type ReferenceTimestampMeta struct {
 //
 // See the documentation of GstReferenceTimestampMeta for details.
 // https://gstreamer.freedesktop.org/documentation/gstreamer/gstbuffer.html?gi-language=c#GstReferenceTimestampMeta
-func (b *Buffer) AddReferenceTimestampMeta(ref *Caps, timestamp, duration time.Duration) *ReferenceTimestampMeta {
-	durClockTime := C.GstClockTime(ClockTimeNone)
-	if duration > time.Duration(0) {
-		durClockTime = C.GstClockTime(duration.Nanoseconds())
-	}
-	tsClockTime := C.GstClockTime(timestamp.Nanoseconds())
-	meta := C.gst_buffer_add_reference_timestamp_meta(b.Instance(), ref.Instance(), tsClockTime, durClockTime)
-	if meta == nil {
-		return nil
-	}
-	return &ReferenceTimestampMeta{
-		Parent:    wrapMeta(&meta.parent),
-		Reference: wrapCaps(meta.reference),
-		Timestamp: time.Duration(meta.timestamp),
-		Duration:  time.Duration(meta.duration),
-	}
-}
+//func (b *Buffer) AddReferenceTimestampMeta(ref *Caps, timestamp, duration time.Duration) *ReferenceTimestampMeta {
+//	durClockTime := C.GstClockTime(ClockTimeNone)
+//	if duration > time.Duration(0) {
+//		durClockTime = C.GstClockTime(duration.Nanoseconds())
+//	}
+//	tsClockTime := C.GstClockTime(timestamp.Nanoseconds())
+//	meta := C.gst_buffer_add_reference_timestamp_meta(b.Instance(), ref.Instance(), tsClockTime, durClockTime)
+//	if meta == nil {
+//		return nil
+//	}
+//	return &ReferenceTimestampMeta{
+//		Parent:    wrapMeta(&meta.parent),
+//		Reference: wrapCaps(meta.reference),
+//		Timestamp: time.Duration(meta.timestamp),
+//		Duration:  time.Duration(meta.duration),
+//	}
+//}
 
 // Append will append all the memory from the given buffer to this one. The result buffer will
 // contain a concatenation of the memory of the two buffers.
@@ -483,34 +484,34 @@ func (b *Buffer) GetMeta(api glib.Type) *Meta {
 }
 
 // GetNumMetas returns the number of metas for the given api type on the buffer.
-func (b *Buffer) GetNumMetas(api glib.Type) uint {
-	return uint(C.gst_buffer_get_n_meta(b.Instance(), C.GType(api)))
-}
+//func (b *Buffer) GetNumMetas(api glib.Type) uint {
+//	return uint(C.gst_buffer_get_n_meta(b.Instance(), C.GType(api)))
+//}
 
 // GetReferenceTimestampMeta finds the first ReferenceTimestampMeta on the buffer that conforms to
 // reference. Conformance is tested by checking if the meta's reference is a subset of reference.
 //
 // Buffers can contain multiple ReferenceTimestampMeta metadata items.
-func (b *Buffer) GetReferenceTimestampMeta(caps *Caps) *ReferenceTimestampMeta {
-	var meta *C.GstReferenceTimestampMeta
-	if caps == nil {
-		meta = C.gst_buffer_get_reference_timestamp_meta(b.Instance(), nil)
-	} else {
-		meta = C.gst_buffer_get_reference_timestamp_meta(b.Instance(), caps.Instance())
-	}
-	if meta == nil {
-		return nil
-	}
-	refMeta := &ReferenceTimestampMeta{
-		Parent:    wrapMeta(&meta.parent),
-		Timestamp: time.Duration(meta.timestamp),
-		Duration:  time.Duration(meta.duration),
-	}
-	if meta.reference != nil {
-		refMeta.Reference = wrapCaps(meta.reference)
-	}
-	return refMeta
-}
+//func (b *Buffer) GetReferenceTimestampMeta(caps *Caps) *ReferenceTimestampMeta {
+//	var meta *C.GstReferenceTimestampMeta
+//	if caps == nil {
+//		meta = C.gst_buffer_get_reference_timestamp_meta(b.Instance(), nil)
+//	} else {
+//		meta = C.gst_buffer_get_reference_timestamp_meta(b.Instance(), caps.Instance())
+//	}
+//	if meta == nil {
+//		return nil
+//	}
+//	refMeta := &ReferenceTimestampMeta{
+//		Parent:    wrapMeta(&meta.parent),
+//		Timestamp: time.Duration(meta.timestamp),
+//		Duration:  time.Duration(meta.duration),
+//	}
+//	if meta.reference != nil {
+//		refMeta.Reference = wrapCaps(meta.reference)
+//	}
+//	return refMeta
+//}
 
 // GetSize retrieves the number of Memory blocks in the bffer.
 func (b *Buffer) GetSize() int64 {
@@ -599,10 +600,10 @@ func (b *Buffer) IterateMeta(meta *Meta) *Meta {
 }
 
 // IterateMetaFiltered is similar to IterateMeta except it will filter on the api type.
-func (b *Buffer) IterateMetaFiltered(meta *Meta, apiType glib.Type) *Meta {
-	ptr := unsafe.Pointer(meta.Instance())
-	return wrapMeta(C.gst_buffer_iterate_meta_filtered(b.Instance(), (*C.gpointer)(&ptr), C.GType(apiType)))
-}
+//func (b *Buffer) IterateMetaFiltered(meta *Meta, apiType glib.Type) *Meta {
+//	ptr := unsafe.Pointer(meta.Instance())
+//	return wrapMeta(C.gst_buffer_iterate_meta_filtered(b.Instance(), (*C.gpointer)(&ptr), C.GType(apiType)))
+//}
 
 // Map will map the data inside this buffer. This function can return nil if the memory is not read or writable.
 // It is safe to call this function multiple times on a single Buffer, however it will retain the flags

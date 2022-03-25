@@ -66,9 +66,9 @@ func ToGstBufferList(buf unsafe.Pointer) *BufferList {
 func (b *BufferList) Instance() *C.GstBufferList { return C.toGstBufferList(unsafe.Pointer(b.ptr)) }
 
 // CalculateSize calculates the size of the data contained in this buffer list by adding the size of all buffers.
-func (b *BufferList) CalculateSize() int64 {
-	return int64(C.gst_buffer_list_calculate_size(b.Instance()))
-}
+//func (b *BufferList) CalculateSize() int64 {
+//	return int64(C.gst_buffer_list_calculate_size(b.Instance()))
+//}
 
 // Copy creates a shallow copy of the given buffer list. This will make a newly allocated copy of the
 // source list with copies of buffer pointers. The refcount of buffers pointed to will be increased by one.
@@ -117,9 +117,9 @@ func (b *BufferList) GetBufferAt(idx uint) *Buffer {
 // GetWritableBufferAt gets the buffer at idx, ensuring it is a writable buffer.
 //
 // You must make sure that idx does not exceed the number of buffers available.
-func (b *BufferList) GetWritableBufferAt(idx uint) *Buffer {
-	return FromGstBufferUnsafeNone(unsafe.Pointer(C.gst_buffer_list_get_writable(b.Instance(), C.guint(idx))))
-}
+//func (b *BufferList) GetWritableBufferAt(idx uint) *Buffer {
+//	return FromGstBufferUnsafeNone(unsafe.Pointer(C.gst_buffer_list_get_writable(b.Instance(), C.guint(idx))))
+//}
 
 // Insert inserts a buffer at idx in the list. Other buffers are moved to make room for this new buffer.
 //

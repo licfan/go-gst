@@ -115,7 +115,7 @@ const (
 	BufferFlagDroppable    BufferFlags = C.GST_BUFFER_FLAG_DROPPABLE     // (4096) – the buffer can be dropped without breaking the stream, for example to reduce bandwidth.
 	BufferFlagDeltaUnit    BufferFlags = C.GST_BUFFER_FLAG_DELTA_UNIT    // (8192) – this unit cannot be decoded independently.
 	BufferFlagSyncAfter    BufferFlags = C.GST_BUFFER_FLAG_SYNC_AFTER    // (32768) – Elements which write to disk or permanent storage should ensure the data is synced after writing the contents of this buffer. (Since: 1.6)
-	BufferFlagNonDroppable BufferFlags = C.GST_BUFFER_FLAG_NON_DROPPABLE // (65536) – This buffer is important and should not be dropped. This can be used to mark important buffers, e.g. to flag RTP packets carrying keyframes or codec setup data for RTP Forward Error Correction purposes, or to prevent still video frames from being dropped by elements due to QoS. (Since: 1.14)
+	//BufferFlagNonDroppable BufferFlags = C.GST_BUFFER_FLAG_NON_DROPPABLE // (65536) – This buffer is important and should not be dropped. This can be used to mark important buffers, e.g. to flag RTP packets carrying keyframes or codec setup data for RTP Forward Error Correction purposes, or to prevent still video frames from being dropped by elements due to QoS. (Since: 1.14)
 	BufferFlagLast         BufferFlags = C.GST_BUFFER_FLAG_LAST          // (1048576) – additional media specific flags can be added starting from this flag.
 )
 
@@ -332,7 +332,7 @@ const (
 	MessageStreamCollection MessageType = C.GST_MESSAGE_STREAM_COLLECTION
 	MessageStreamsSelected  MessageType = C.GST_MESSAGE_STREAMS_SELECTED
 	MessageRedirect         MessageType = C.GST_MESSAGE_REDIRECT
-	MessageDeviceChanged    MessageType = C.GST_MESSAGE_DEVICE_CHANGED
+	//MessageDeviceChanged    MessageType = C.GST_MESSAGE_DEVICE_CHANGED
 	MessageAny              MessageType = C.GST_MESSAGE_ANY
 )
 
@@ -371,7 +371,7 @@ const (
 	PadLinkCheckHierarchy     PadLinkCheck = C.GST_PAD_LINK_CHECK_HIERARCHY      // (1) – Check the pads have same parents/grandparents. Could be omitted if it is already known that the two elements that own the pads are in the same bin.
 	PadLinkCheckTemplateCaps  PadLinkCheck = C.GST_PAD_LINK_CHECK_TEMPLATE_CAPS  // (2) – Check if the pads are compatible by using their template caps. This is much faster than GST_PAD_LINK_CHECK_CAPS, but would be unsafe e.g. if one pad has GST_CAPS_ANY.
 	PadLinkCheckCaps          PadLinkCheck = C.GST_PAD_LINK_CHECK_CAPS           // (4) – Check if the pads are compatible by comparing the caps returned by gst_pad_query_caps.
-	PadLinkCheckNoReconfigure PadLinkCheck = C.GST_PAD_LINK_CHECK_NO_RECONFIGURE // (8) – Disables pushing a reconfigure event when pads are linked.
+	//PadLinkCheckNoReconfigure PadLinkCheck = C.GST_PAD_LINK_CHECK_NO_RECONFIGURE // (8) – Disables pushing a reconfigure event when pads are linked.
 	PadLinkCheckDefault       PadLinkCheck = C.GST_PAD_LINK_CHECK_DEFAULT        // (5) – The default checks done when linking pads (i.e. the ones used by gst_pad_link).
 )
 
@@ -564,16 +564,16 @@ const (
 	StateChangePlayingToPaused  StateChange = C.GST_STATE_CHANGE_PLAYING_TO_PAUSED
 	StateChangePausedToReady    StateChange = C.GST_STATE_CHANGE_PAUSED_TO_READY
 	StateChangeReadyToNull      StateChange = C.GST_STATE_CHANGE_READY_TO_NULL
-	StateChangeNullToNull       StateChange = C.GST_STATE_CHANGE_NULL_TO_NULL
-	StateChangeReadyToReady     StateChange = C.GST_STATE_CHANGE_READY_TO_READY
-	StateChangePausedToPaused   StateChange = C.GST_STATE_CHANGE_PAUSED_TO_PAUSED
-	StateChangePlayingToPlaying StateChange = C.GST_STATE_CHANGE_PLAYING_TO_PLAYING
+	//StateChangeNullToNull       StateChange = C.GST_STATE_CHANGE_NULL_TO_NULL
+	//StateChangeReadyToReady     StateChange = C.GST_STATE_CHANGE_READY_TO_READY
+	//StateChangePausedToPaused   StateChange = C.GST_STATE_CHANGE_PAUSED_TO_PAUSED
+	//StateChangePlayingToPlaying StateChange = C.GST_STATE_CHANGE_PLAYING_TO_PLAYING
 )
 
 // String returns the string representation of a StateChange
-func (s StateChange) String() string {
-	return C.GoString(C.gst_state_change_get_name(C.GstStateChange(s)))
-}
+//func (s StateChange) String() string {
+//	return C.GoString(C.gst_state_change_get_name(C.GstStateChange(s)))
+//}
 
 // StateChangeReturn is a representation of GstStateChangeReturn.
 type StateChangeReturn int
@@ -829,7 +829,7 @@ const (
 	QueryCaps       QueryType = C.GST_QUERY_CAPS        // (43523) – the caps query
 	QueryDrain      QueryType = C.GST_QUERY_DRAIN       // (46086) – wait till all serialized data is consumed downstream
 	QueryContext    QueryType = C.GST_QUERY_CONTEXT     // (48643) – query the pipeline-local context from downstream or upstream (since 1.2)
-	QueryBitrate    QueryType = C.GST_QUERY_BITRATE     // (51202) – the bitrate query (since 1.16)
+	//QueryBitrate    QueryType = C.GST_QUERY_BITRATE     // (51202) – the bitrate query (since 1.16)
 )
 
 func (q QueryType) String() string { return C.GoString(C.gst_query_type_get_name(C.GstQueryType(q))) }

@@ -317,19 +317,19 @@ func (e *Element) GetSrcPads() ([]*Pad, error) {
 
 // GetPadTemplates retrieves a list of the pad templates associated with this element.
 // The list must not be modified by the calling code.
-func (e *Element) GetPadTemplates() []*PadTemplate {
-	glist := C.gst_element_get_pad_template_list((*C.GstElement)(e.Instance()))
-	if glist == nil {
-		return nil
-	}
-	goList := glib.WrapList(uintptr(unsafe.Pointer(glist)))
-	out := make([]*PadTemplate, 0)
-	goList.Foreach(func(item interface{}) {
-		pt := item.(unsafe.Pointer)
-		out = append(out, wrapPadTemplate(&glib.Object{GObject: glib.ToGObject(unsafe.Pointer(pt))}))
-	})
-	return out
-}
+//func (e *Element) GetPadTemplates() []*PadTemplate {
+//	glist := C.gst_element_get_pad_template_list((*C.GstElement)(e.Instance()))
+//	if glist == nil {
+//		return nil
+//	}
+//	goList := glib.WrapList(uintptr(unsafe.Pointer(glist)))
+//	out := make([]*PadTemplate, 0)
+//	goList.Foreach(func(item interface{}) {
+//		pt := item.(unsafe.Pointer)
+//		out = append(out, wrapPadTemplate(&glib.Object{GObject: glib.ToGObject(unsafe.Pointer(pt))}))
+//	})
+//	return out
+//}
 
 // GetState returns the current state of this element.
 func (e *Element) GetState() State {
